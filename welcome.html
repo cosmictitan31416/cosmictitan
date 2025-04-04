@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CosmicTitan</title>
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #0c0c0c;
+            color: #00ff00;
+            text-align: center;
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 3em;
+            color: #00ff00;
+        }
+        .button {
+            padding: 20px 40px;
+            font-size: 1.5em;
+            margin: 20px;
+            background-color: #222;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #00ff00;
+            color: #222;
+        }
+        .button.danger {
+            background-color: #ff0000;
+        }
+        .button.danger:hover {
+            background-color: #990000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to CosmicTitan</h1>
+    <p>You've just entered the lair of the CosmicTitan hacking group. Proceed with caution.</p>
+    <button class="button danger" onclick="window.location.href='photos.html'">Don't Click Here</button>
+    <button class="button" onclick="window.location.href='videos.html'">Videos</button>
+</body>
+</html>

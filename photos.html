@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Creepy Image Wall</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      background: black;
+      touch-action: manipulation;
+    }
+    .image-tile {
+      position: absolute;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .text {
+      position: absolute;
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      z-index: 2;
+      text-shadow: 1px 1px 3px black;
+      white-space: nowrap;
+      pointer-events: none;
+      font-size: 7vw; /* বড় আকারের জন্য */
+      animation: blink 0.5s infinite alternate; /* ঘন ঘন আসার জন্য */
+      color: white; /* লেখা সাদা */
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .background-box {
+      position: absolute;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+
+<audio id="bgAudio" src="audio.mp3" loop></audio>
+
+<script>
+  document.addEventListener('click', () => {
+    const audio = document.getElementById('bgAudio');
+    audio.play().catch(err => {
+      console.log("Audio play failed:", err);
+    });
+  }, { once: true });
+
+  const imageCount = 100;
+  const tileSize = Math.floor(window.innerWidth / 4);
+
+  const sentences = [
+    "Don't turn around...", "They are watching you.", "It's already inside.", "Your time is up.",
+    "Whispers in the dark.", "The walls are bleeding.", "He’s right behind you.", "You’re not alone.",
+    "It knows your name.", "Wake up. Wake up. Wake up.", "This is not a dream.", "There's something under your bed.",
+    "She never blinked.", "The mirror cracked itself.", "It saw you.", "Why are you smiling?", "Something moved.",
+    "They whisper your secrets.", "The shadows are crawling.", "Run. Now.", "You can’t escape.", "The air is thick.",
+    "They know your fears.", "It’s already too late.", "The darkness is spreading.", "It’s always watching.",
+    "It won’t stop.", "You’re being followed.", "The floor creaks underfoot.", "Don’t make a sound.", "It’s behind the door.",
+    "Something’s breathing near you.", "I hear footsteps.", "There’s no way out.", "It’s in your head.", "You can feel it.",
+    "There’s something moving in the corner.", "Don’t look at the reflection.", "You’re trapped.", "It’s too quiet.",
+    "The lights are flickering.", "They know what you did.", "You can’t hide.", "The whispers are getting louder.",
+    "Don’t close your eyes.", "It won’t leave until you do.", "You’re running out of time.", "There’s nowhere to run.",
+    "The air feels wrong.", "They’re getting closer.", "Someone’s watching you sleep.", "The walls are closing in.",
+    "It’s under the bed.", "Don’t turn off the lights.", "It’s in the closet.", "They’re not human.", "You’re not safe.",
+    "Everything is a lie.", "There’s something in the attic.", "It can hear you.", "You are not alone anymore.",
+    "It’s waiting for you.", "They’re just outside.", "The ground shakes.", "There’s no escape.", "You’ve been marked.",
+    "It’s already in the house.", "Don’t go near the window.", "It’s closer than you think.", "The phone is ringing.",
+    "There’s something in your shadow.", "The room is colder.", "You’re not dreaming.", "You’re never alone in the dark.",
+    "They are closer now.", "You can’t outrun it.", "Your heart is beating too loud.", "It’s smiling at you.",
+    "You feel it watching you.", "You can hear it breathe.", "The walls are bleeding.", "It wants you.", "There’s no way out.",
+    "It knows your every move.", "You will never be the same.", "The door won’t open.", "Don’t answer the phone.",
+    "It’s coming for you.", "You can’t fight it.", "It knows your thoughts.", "Don’t look behind you.", "It’s closer now.",
+    "You can’t escape its reach.", "It’s getting darker.", "Don’t make any noise.", "It’s waiting for you to fall asleep.",
+    "Your reflection is smiling.", "The silence is deafening.", "It can’t be stopped.", "The world is shifting.",
+    "You’re running out of breath.", "It’s in your dreams.", "The walls are closing in on you.", "They can see you.",
+    "Something’s wrong with the lights.", "The house is alive.", "You can’t run far enough.", "The shadows are moving.",
+    "The door won’t lock.", "You’re not alone in the mirror.", "It’s already inside your mind.", "The voices won’t stop.",
+    "It will never let you go.", "You’re trapped in its game.", "There’s no escape from your own mind.", "It’s all in your head.",
+    "You’ve already lost.", "Don’t go outside.", "The air is thick with danger.", "It’s closer than ever before.",
+    "The sound of footsteps never stops.", "You’ll never feel safe again.", "It’s already taken over.",
+    "There’s a shadow on the wall.", "You can’t escape its gaze.", "It’s always one step behind.", "You’re already its victim."
+  ];
+
+  function fillScreenWithImages() {
+    const cols = Math.ceil(window.innerWidth / tileSize);
+    const rows = Math.ceil(window.innerHeight / tileSize);
+
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const img = document.createElement("img");
+        img.className = "image-tile";
+        img.style.left = x * tileSize + "px";
+        img.style.top = y * tileSize + "px";
+
+        const sizeOffset = Math.floor(Math.random() * 20) - 10;
+        const size = tileSize + sizeOffset;
+        img.style.width = size + "px";
+        img.style.height = size + "px";
+
+        const index = Math.floor(Math.random() * imageCount + 1);
+        img.src = `${String(index).padStart(4, '0')}.jpeg`;
+
+        document.body.appendChild(img);
+
+        setInterval(() => {
+          const newIndex = Math.floor(Math.random() * imageCount + 1);
+          img.src = `${String(newIndex).padStart(4, '0')}.jpeg`;
+        }, Math.random() * 5000 + 3000);
+      }
+    }
+  }
+
+  function showText() {
+    const activeTexts = document.querySelectorAll('.text');
+    if (activeTexts.length >= 4) activeTexts[0].remove();
+    
+    const text = document.createElement("div");
+    text.className = "text";
+    text.innerText = sentences[Math.floor(Math.random() * sentences.length)];
+    
+    // Ensure the text stays within the screen and doesn't go out of bounds
+    const randomX = Math.random() * (window.innerWidth - 300); // 300px margin to avoid going off screen
+    const randomY = Math.random() * (window.innerHeight - 100); // 100px margin to avoid going off screen
+    text.style.left = `${randomX}px`;
+    text.style.top = `${randomY}px`;
+    
+    document.body.appendChild(text);
+    
+    // Remove the text after 2-4 seconds
+    setTimeout(() => text.remove(), 3000); // This makes the text stay for 3 seconds
+    
+    // Repeat text creation with a short delay
+    setTimeout(showText, Math.random() * 2000 + 1000); // Adjusted delay
+  }
+
+  fillScreenWithImages();
+  showText();
+</script>
+
+</body>
+</html>

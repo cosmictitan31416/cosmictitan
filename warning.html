@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <style>
+      body {
+        color: green;
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .warning {
+        color: black;
+        background-color: green;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .message {
+        background-color: green;
+        padding: 10px;
+        margin: 10px 0;
+        width: 80%;
+      }
+
+      .message p {
+        background-color: black;
+        padding: 10px;
+        margin: 0;
+      }
+
+      button {
+        background-color: #204b29;
+        color: green;
+        width: 100%;
+        font-size: 5vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="warning">
+      <b>WARNING</b>
+    </div>
+
+    <div class="message">
+      <p>You are going to a hidden area where normal people cannot access. This website may contain dangerous content! The activities may be illegal. Continue at your own risk. If you agree, click "ENTER".</p>
+    </div>
+
+    <div>
+      <button type="button" onclick="window.location.href='welcome.html'">ENTER</button>
+    </div>
+  </body>
+</html>
